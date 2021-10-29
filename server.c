@@ -1,8 +1,3 @@
-/*
-MT2019114
-Server side: concurrent server using fork()
-socket->bind->listen->accept->recv/send->close
-*/
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -12,42 +7,8 @@ socket->bind->listen->accept->recv/send->close
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
-#define PORT 8000
-
-//--------------- structures declaration of train and user------------//
-struct train
-{
-	int train_number;
-	char train_name[50];
-	int total_seats;
-	int available_seats;
-};
-struct user
-{
-	int login_id;
-	char password[50];
-	char name[50];
-	int type;
-};
-
-struct booking
-{
-	int booking_id;
-	int type;
-	int uid;
-	int tid;
-	int seats;
-};
-//---------------------------------------------------------------------//
-
-void service_cli(int sock);
-void login(int client_sock);
-void signup(int client_sock);
-int menu(int client_sock, int type, int id);
-void crud_train(int client_sock);
-void crud_user(int client_sock);
-int user_function(int client_sock, int choice, int type, int id);
+#include "./def/str.h"
+#include "./def/const.h"
 
 int main(void)
 {
@@ -67,7 +28,7 @@ int main(void)
 	server.sin_port = htons(PORT);
 
 	if (bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0)
-		perror("bind failed. Error");
+		perror("Error: Bind failed.");
 
 	listen(socket_desc, 3);
 	c = sizeof(struct sockaddr_in);
@@ -93,7 +54,7 @@ int main(void)
 void service_cli(int sock)
 {
 	int choice;
-	printf("\n\tClient [%d] Connected\n", sock);
+	printf("\nClient Connected on socket: %d\n", sock);
 	do
 	{
 		read(sock, &choice, sizeof(int));

@@ -1,17 +1,10 @@
-/*
-MT2019114
-Client side:
-socket->connect->send/recv->close
-*/
-
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#define PORT 8000
+#include "./def/const.h"
 
 //------------------------------Function declarations---------------------------------------//
 
