@@ -255,17 +255,22 @@ int crud_train(int sock, int choice)
 		if (choice == 1)
 		{
 			read(sock, &tname, sizeof(tname));
+			
 			printf("Current name: %s", tname);
 			printf("New name: ");
 			scanf("%s", tname);
+			
 			write(sock, &tname, sizeof(tname));
 		}
 		else if (choice == 2)
 		{
 			read(sock, &tseats, sizeof(tseats));
+			
 			printf("Current value: %d", tseats);
 			printf("New value: ");
 			scanf("%d", &tseats);
+			
+			write(sock, &tseats, sizeof(tseats));
 			write(sock, &tseats, sizeof(tseats));
 		}
 		read(sock, &valid, sizeof(valid));

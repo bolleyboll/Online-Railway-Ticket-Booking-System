@@ -373,6 +373,7 @@ void crud_train(int client_sock)
 		{
 			write(client_sock, &tdb.total_seats, sizeof(tdb.total_seats));
 			read(client_sock, &tdb.total_seats, sizeof(tdb.total_seats));
+			read(client_sock, &tdb.available_seats, sizeof(tdb.available_seats));
 		}
 
 		lseek(fd_train, -1 * sizeof(struct train), SEEK_CUR);
