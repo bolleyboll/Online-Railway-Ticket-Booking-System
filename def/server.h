@@ -23,10 +23,10 @@ struct booking
 	int seats;
 };
 
-void service_cli(int sock);
-void login(int client_sock);
-void signup(int client_sock);
-int menu(int client_sock, int type, int id);
-void crud_train(int client_sock);
-void crud_user(int client_sock);
-int user_function(int client_sock, int choice, int type, int id);
+void service_cli(int);
+void login(int);
+void signup(int);
+int menu(int, int, int);
+void crud_train(int);
+void crud_user(int);
+int user_function(int, int, int, int);
