@@ -139,7 +139,7 @@ int menu(int sd, int type)
 		scanf("%d", &choice);
 		
 		write(sd, &choice, sizeof(choice));
-		return user_function(sd, choice);
+		return user(sd, choice);
 	}
 	else if (type == 0)
 	{
@@ -164,7 +164,7 @@ int menu(int sd, int type)
 			
 			write(sd, &choice, sizeof(choice));
 			
-			return crud_train(sd, choice);
+			return trainCRUD(sd, choice);
 		}
 		else if (choice == 2)
 		{
@@ -178,14 +178,14 @@ int menu(int sd, int type)
 			
 			write(sd, &choice, sizeof(choice));
 			
-			return crud_user(sd, choice);
+			return userCRUD(sd, choice);
 		}
 		else if (choice == 3)
 			return -1;
 	}
 }
 
-int crud_train(int sd, int ch)
+int trainCRUD(int sd, int ch)
 {
 	int valid = 0;
 
@@ -238,7 +238,7 @@ int crud_train(int sd, int ch)
 		char tname[50];
 		
 		write(sd, &choice, sizeof(int));
-		crud_train(sd, choice);
+		trainCRUD(sd, choice);
 		
 		printf("Enter the train number you want to modify: ");
 		scanf("%d", &tid);
@@ -282,7 +282,7 @@ int crud_train(int sd, int ch)
 	{
 		int choice = 2, tid, valid = 0;
 		write(sd, &choice, sizeof(int));
-		crud_train(sd, choice);
+		trainCRUD(sd, choice);
 
 		printf("Enter the train number you want to delete: ");
 		scanf("%d", &tid);
@@ -297,7 +297,7 @@ int crud_train(int sd, int ch)
 	}
 }
 
-int crud_user(int sd, int ch)
+int userCRUD(int sd, int ch)
 {
 	int valid = 0;
 	
@@ -364,7 +364,7 @@ int crud_user(int sd, int ch)
 		
 		write(sd, &choice, sizeof(int));
 		
-		crud_user(sd, choice);
+		userCRUD(sd, choice);
 		
 		printf("Enter the User ID you want to modify: ");
 		scanf("%d", &uid);
@@ -423,7 +423,7 @@ int crud_user(int sd, int ch)
 		int choice = 2, uid, valid = 0;
 		
 		write(sd, &choice, sizeof(int));
-		crud_user(sd, choice);
+		userCRUD(sd, choice);
 
 		printf("Enter the User ID you want to delete: ");
 		scanf("%d", &uid);
@@ -439,7 +439,7 @@ int crud_user(int sd, int ch)
 	}
 }
 
-int user_function(int sd, int ch)
+int user(int sd, int ch)
 {
 	int valid = 0;
 	
@@ -449,7 +449,7 @@ int user_function(int sd, int ch)
 		
 		write(sd, &view, sizeof(int));
 		
-		crud_train(sd, view);
+		trainCRUD(sd, view);
 		
 		printf("\nEnter the Train No. you want to book: ");
 		scanf("%d", &tid);
@@ -496,7 +496,7 @@ int user_function(int sd, int ch)
 	{
 		int choice = 2, bid, val, valid;
 		
-		user_function(sd, choice);
+		user(sd, choice);
 		
 		printf("\nEnter the Booking ID you want to modify: ");
 		scanf("%d", &bid);
@@ -538,7 +538,7 @@ int user_function(int sd, int ch)
 	{
 		int choice = 2, bid, valid;
 		
-		user_function(sd, choice);
+		user(sd, choice);
 		
 		printf("\n\t Enter the Booking ID you want to cancel: ");
 		scanf("%d", &bid);
