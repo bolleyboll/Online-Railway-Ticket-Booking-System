@@ -1,9 +1,10 @@
-#include <string.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+
 #include "./def/const.h"
 
 //------------------------------Function declarations---------------------------------------//
@@ -136,8 +137,8 @@ int menu(int sock, int type)
 	}
 	else if (type == 0)
 	{ // Admin
-		printf("\n\t1. CRUD operations on train\n");
-		printf("\t2. CRUD operations on user\n");
+		printf("1. Train Operations\n");
+		printf("2. User Operations\n");
 		printf("\t3. Logout\n");
 		printf("\t Your Choice: ");
 		scanf("%d", &choice);

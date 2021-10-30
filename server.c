@@ -1,13 +1,14 @@
-#include <string.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
-#include "./def/str.h"
+
+#include "./def/server.h"
 #include "./def/const.h"
 
 int main(void)
@@ -74,7 +75,7 @@ void service_cli(int sock)
 
 void login(int client_sock)
 {
-	int fd_user = open("db/db_user", O_RDWR);
+	int fd_user = open("data/userDB.dat", O_RDWR);
 	int id, type, valid = 0, user_valid = 0;
 	char password[50];
 	struct user u;
@@ -152,7 +153,7 @@ void login(int client_sock)
 
 void signup(int client_sock)
 {
-	int fd_user = open("db/db_user", O_RDWR);
+	int fd_user = open("data/userDB.dat", O_RDWR);
 	int type, id = 0;
 	char name[50], password[50];
 	struct user u, temp;
@@ -248,7 +249,7 @@ void crud_train(int client_sock)
 		read(client_sock, &tname, sizeof(tname));
 		struct train tdb, temp;
 		struct flock lock;
-		int fd_train = open("db/db_train", O_RDWR);
+		int fd_train = open("data/trainDB.dat", O_RDWR);
 
 		tdb.train_number = tid;
 		strcpy(tdb.train_name, tname);
@@ -292,7 +293,7 @@ void crud_train(int client_sock)
 	{ // View/ Read trains
 		struct flock lock;
 		struct train tdb;
-		int fd_train = open("db/db_train", O_RDONLY);
+		int fd_train = open("data/trainDB.dat", O_RDONLY);
 
 		lock.l_type = F_RDLCK;
 		lock.l_start = 0;
@@ -326,7 +327,7 @@ void crud_train(int client_sock)
 		int choice, valid = 0, tid;
 		struct flock lock;
 		struct train tdb;
-		int fd_train = open("db/db_train", O_RDWR);
+		int fd_train = open("data/trainDB.dat", O_RDWR);
 
 		read(client_sock, &tid, sizeof(tid));
 
@@ -368,7 +369,7 @@ void crud_train(int client_sock)
 		crud_train(client_sock);
 		struct flock lock;
 		struct train tdb;
-		int fd_train = open("db/db_train", O_RDWR);
+		int fd_train = open("data/trainDB.dat", O_RDWR);
 		int tid, valid = 0;
 
 		read(client_sock, &tid, sizeof(tid));
@@ -411,7 +412,7 @@ void crud_user(int client_sock)
 
 		struct user udb;
 		struct flock lock;
-		int fd_user = open("db/db_user", O_RDWR);
+		int fd_user = open("data/userDB.dat", O_RDWR);
 		int fp = lseek(fd_user, 0, SEEK_END);
 
 		lock.l_type = F_WRLCK;
@@ -455,7 +456,7 @@ void crud_user(int client_sock)
 	{ // View user list
 		struct flock lock;
 		struct user udb;
-		int fd_user = open("db/db_user", O_RDONLY);
+		int fd_user = open("data/userDB.dat", O_RDONLY);
 
 		lock.l_type = F_RDLCK;
 		lock.l_start = 0;
@@ -493,7 +494,7 @@ void crud_user(int client_sock)
 		char pass[50];
 		struct flock lock;
 		struct user udb;
-		int fd_user = open("db/db_user", O_RDWR);
+		int fd_user = open("data/userDB.dat", O_RDWR);
 
 		read(client_sock, &uid, sizeof(uid));
 
@@ -540,7 +541,7 @@ void crud_user(int client_sock)
 		crud_user(client_sock);
 		struct flock lock;
 		struct user udb;
-		int fd_user = open("db/db_user", O_RDWR);
+		int fd_user = open("data/userDB.dat", O_RDWR);
 		int uid, valid = 0;
 
 		read(client_sock, &uid, sizeof(uid));
@@ -579,8 +580,8 @@ int user_function(int client_sock, int choice, int type, int id)
 		struct flock lockb;
 		struct train tdb;
 		struct booking bdb;
-		int fd_train = open("db/db_train", O_RDWR);
-		int fd_book = open("db/db_booking", O_RDWR);
+		int fd_train = open("data/trainDB.dat", O_RDWR);
+		int fd_book = open("data/bookingDB.dat", O_RDWR);
 		int tid, seats;
 		read(client_sock, &tid, sizeof(tid));
 
@@ -645,7 +646,7 @@ int user_function(int client_sock, int choice, int type, int id)
 	{ // View bookings
 		struct flock lock;
 		struct booking bdb;
-		int fd_book = open("db/db_booking", O_RDONLY);
+		int fd_book = open("data/bookingDB.dat", O_RDONLY);
 		int no_of_bookings = 0;
 
 		lock.l_type = F_RDLCK;
@@ -688,8 +689,8 @@ int user_function(int client_sock, int choice, int type, int id)
 		struct train tdb;
 		struct flock lockb;
 		struct flock lockt;
-		int fd_book = open("db/db_booking", O_RDWR);
-		int fd_train = open("db/db_train", O_RDWR);
+		int fd_book = open("data/bookingDB.dat", O_RDWR);
+		int fd_train = open("data/trainDB.dat", O_RDWR);
 		read(client_sock, &bid, sizeof(bid));
 
 		lockb.l_type = F_WRLCK;
@@ -755,8 +756,8 @@ int user_function(int client_sock, int choice, int type, int id)
 		struct train tdb;
 		struct flock lockb;
 		struct flock lockt;
-		int fd_book = open("db/db_booking", O_RDWR);
-		int fd_train = open("db/db_train", O_RDWR);
+		int fd_book = open("data/bookingDB.dat", O_RDWR);
+		int fd_train = open("data/trainDB.dat", O_RDWR);
 		read(client_sock, &bid, sizeof(bid));
 
 		lockb.l_type = F_WRLCK;
